@@ -10,6 +10,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = process.env.BASE || ''; // e.g. /cjmg-redesign when hosted on GitHub Pages
 const OUT = join(ROOT, process.env.OUT_DIR || 'site');
 const NOINDEX = !!process.env.NOINDEX;
+const BUILD = Date.now().toString(36); // cache-buster for CSS/JS
 const e = (s = '') => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /* ---------- graphics ---------- */
@@ -64,7 +65,7 @@ function layout({ path, title, desc, body, ld = [], og = IMG.hero, dark = false 
 <meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#000000">${NOINDEX ? '<meta name="robots" content="noindex,nofollow">' : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://static.wixstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Caveat:wght@500&display=swap">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/style.css?v=${BUILD}">
 <script>document.documentElement.classList.add('js')</script>
 ${[ORG, ...ld].map(LD).join('\n')}
 </head><body>
@@ -83,7 +84,7 @@ ${[ORG, ...ld].map(LD).join('\n')}
 </div>
 <main id="main">${body}</main>
 ${footer(logo)}
-<script src="/assets/main.js" defer></script>
+<script src="/assets/main.js?v=${BUILD}" defer></script>
 </body></html>`;
 }
 
