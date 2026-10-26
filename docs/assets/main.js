@@ -108,6 +108,7 @@
     const go = (n) => {
       i = (n + slides.length) % slides.length;
       slides.forEach((s, k) => { s.classList.toggle('on', k === i); s.setAttribute('aria-hidden', k !== i); });
+      const arch = $('.arch', box); if (arch && slides[i].dataset.bg) arch.style.background = slides[i].dataset.bg;
       dots.forEach((b, k) => b.setAttribute('aria-current', k === i));
       marks.forEach((m, k) => (m.style.opacity = k === i ? 1 : 0));
     };

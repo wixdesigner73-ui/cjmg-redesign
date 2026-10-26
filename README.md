@@ -1,6 +1,6 @@
 # CJMG Creative — website redesign prototype
 
-Static prototype of the redesigned thecjmg.com (monochrome editorial design), built from audited CJMG content. Used as the visual/behavior spec for the Wix Studio build.
+Static prototype of the redesigned thecjmg.com (black, white and red editorial design in CJMG's own brand), built from audited CJMG content. Used as the visual/behavior spec for the Wix Studio build.
 
 - `src/` — content (`data.mjs`), generator (`build.mjs`), CSS/JS (`assets/`)
 - `site/` — build for hosting at a domain root (`npm run build`, preview with `npm start`)

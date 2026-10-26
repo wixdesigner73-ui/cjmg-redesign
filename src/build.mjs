@@ -4,6 +4,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as D from './data.mjs';
 
+const { needsDark } = D;
 const { SITE, PROJECTS, FILTERS, FEATURED, TESTIMONIALS, AGENDA, DESIGN, SEO, LOGO, SERVICES, PROCESS, SERVICE_OPTIONS, IMG, wix } = D;
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = process.env.BASE || ''; // e.g. /cjmg-redesign when hosted on GitHub Pages
@@ -17,7 +18,7 @@ const ARL = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-w
 const ARR = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5"/></svg>';
 const STAR = (cls = '', style = '') => `<svg class="star ${cls}" style="${style}" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M50 5 L57 37 L85 17 L65 44 L95 50 L63 57 L83 85 L54 63 L50 95 L44 63 L14 81 L38 55 L5 48 L38 42 L17 15 L46 36 Z"/></svg>`;
 const SCRIB = (cls = '', style = '') => `<svg class="scribble ${cls}" style="${style}" viewBox="0 0 80 44" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 34C18 8 44 4 68 24M56 12l14 12-17 6"/></svg>`;
-const CONTOURS = (n = 30, stroke = '#fff', op = 0.32) => {
+const CONTOURS = (n = 30, stroke = '#fc0000', op = 0.55) => {
   let p = '';
   for (let i = 0; i < n; i++) p += `<path d="M-80 720Q${470 + i * 3} ${-640 + i * 21} 1080 ${700 + i * 3}"/>`;
   return `<svg class="contours" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid slice" fill="none" stroke="${stroke}" stroke-opacity="${op}" stroke-width="1" aria-hidden="true">${p}</svg>`;
@@ -33,7 +34,7 @@ const ICONS = {
 };
 const ico = (k) => `<span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[k]}</svg></span>`;
 const btn = (label, href, cls = '') => `<a class="btn ${cls}" href="${href}">${e(label)}<span class="ic">${AR}${AR}</span></a>`;
-const lines = (arr) => arr.map((t, i) => `<span class="ln"><span style="--i:${i}">${e(t)}</span></span>`).join('');
+const lines = (arr) => arr.map((t, i) => `<span class="ln"><span style="--i:${i}">${e(t).replace(/\.$/, '<i class="dot">.</i>')}</span></span>`).join('');
 const label = (t) => `<span class="label">${e(t)}</span>`;
 
 /* ---------- layout ---------- */
@@ -60,10 +61,9 @@ function layout({ path, title, desc, body, ld = [], og = IMG.hero, dark = false 
 <title>${e(title)}</title><meta name="description" content="${e(desc)}">
 <link rel="canonical" href="${url}">
 <meta property="og:type" content="website"><meta property="og:title" content="${e(title)}"><meta property="og:description" content="${e(desc)}"><meta property="og:url" content="${url}"><meta property="og:site_name" content="${SITE.name}"><meta property="og:image" content="${wix(og, 1200, 630)}">
-<meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#080808">${NOINDEX ? '<meta name="robots" content="noindex,nofollow">' : ''}
-<link rel="preconnect" href="https://api.fontshare.com"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://static.wixstatic.com" crossorigin>
-<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=DM+Sans:wght@500;600&family=Caveat:wght@500&display=swap">
+<meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#000000">${NOINDEX ? '<meta name="robots" content="noindex,nofollow">' : ''}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://static.wixstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Caveat:wght@500&display=swap">
 <link rel="stylesheet" href="/assets/style.css">
 <script>document.documentElement.classList.add('js')</script>
 ${[ORG, ...ld].map(LD).join('\n')}
@@ -72,7 +72,7 @@ ${[ORG, ...ld].map(LD).join('\n')}
 <header class="hdr"><div class="wrap in">
   ${logo}
   <nav aria-label="Primary"><ul class="nav">${nav}</ul></nav>
-  <a class="btn cta sm" href="/contact">Contact Us<span class="ic">${AR}${AR}</span></a>
+  <a class="btn hcta sm" href="/contact">Contact Us<span class="ic">${AR}${AR}</span></a>
   <button class="burger" aria-label="Menu" aria-expanded="false"><span></span></button>
 </div></header>
 <div class="mmenu" aria-label="Mobile menu">
@@ -101,7 +101,7 @@ function footer(logo) {
 
 /* ---------- components ---------- */
 function pjCard(p, extra = '') {
-  const badge = p.logo ? `<span class="badge"><img src="${wix(p.logo)}" alt="${e(p.name)} logo" loading="lazy" decoding="async" data-soft></span>` : '';
+  const badge = p.logo ? `<span class="badge${needsDark(p.logo) ? ' on-dark' : ''}"><img src="${wix(p.logo)}" alt="${e(p.name)} logo" loading="lazy" decoding="async" data-soft></span>` : '';
   return `<a class="pj ${extra}" href="/projects/${p.slug}" data-g="${e(p.group)}">
   <div class="ph"><img class="shot" src="${wix(p.shot, 900, 760)}" alt="${e(p.name)} — ${e(p.cat)} website and branding project by CJMG Creative" loading="lazy" decoding="async" data-soft>${badge}<span class="ar">${AR}${AR}</span></div>
   <div class="meta"><h3>${e(p.name)}</h3><p class="cat"><span>${e(p.cat)}</span><i></i><span>${p.goals.join(' · ')}</span></p></div></a>`;
@@ -109,7 +109,7 @@ function pjCard(p, extra = '') {
 
 function marquee() {
   const items = PROJECTS.map((p) => (p.logo
-    ? `<img class="lg" src="${wix(p.logo)}" alt="${e(p.name)}" loading="lazy" data-soft>`
+    ? `<img class="lg${needsDark(p.logo) ? ' on-dark' : ''}" src="${wix(p.logo)}" alt="${e(p.name)}" loading="lazy" data-soft>`
     : `<span class="tx">${e(p.name)}</span>`));
   const row = items.map((x) => `${x}<span class="plus">+</span>`).join('');
   return `<section class="strip" aria-label="Clients and projects"><div class="marq"><div class="it">${row}</div><div class="it" aria-hidden="true">${row}</div></div></section>`;
@@ -139,7 +139,7 @@ function testimonials() {
   return `<section class="section testi"><div class="wrap"><div class="t-wrap" data-testi>
   <div class="arch" data-reveal>${TESTIMONIALS.map((t, i) => `<img class="mark" style="opacity:${i ? 0 : 1}" src="${wix(t.img)}" alt="${e(t.biz)} logo" loading="lazy" data-soft>`).join('')}</div>
   <div data-reveal style="--d:.1s">${label('Reviews')}<h2 class="h2" style="margin:20px 0 34px">What our clients say about working with us.</h2>
-    <div class="tslides">${TESTIMONIALS.map((t) => `<figure class="tsl"><q>“${e(t.quote)}”</q><figcaption class="who">${e(t.name)}<span>${e(t.role)}, ${e(t.biz)}</span></figcaption></figure>`).join('')}</div>
+    <div class="tslides">${TESTIMONIALS.map((t) => `<figure class="tsl" data-bg="${t.bg}"><q>“${e(t.quote)}”</q><figcaption class="who">${e(t.name)}<span>${e(t.role)}, ${e(t.biz)}</span></figcaption></figure>`).join('')}</div>
     <div class="tdots" role="tablist" aria-label="Testimonials">${TESTIMONIALS.map((t, i) => `<button aria-label="Show testimonial from ${e(t.name)}" aria-current="${i === 0}"></button>`).join('')}</div>
   </div></div></div></section>`;
 }
@@ -154,7 +154,7 @@ function faq(items, dark = false) {
 
 function phero({ crumbs = [], lab, h1, lede, right = '', wide = false, cls = '' }) {
   const cr = crumbs.length ? `<div class="crumbs"><a href="/">Home</a>${crumbs.map(([t, h]) => ` <span>/</span> ${h ? `<a href="${h}">${e(t)}</a>` : `<span>${e(t)}</span>`}`).join('')}</div>` : '';
-  return `<section class="phero ${wide ? 'wide' : ''} ${cls}"><div class="grid-bg"></div>${STAR('', right ? 'left:47%;top:18%' : 'right:6%;top:24%')}<div class="wrap">
+  return `<section class="phero dark ${wide ? 'wide' : ''} ${cls}"><div class="grid-bg"></div>${STAR('', right ? 'left:47%;top:18%' : 'right:6%;top:24%')}<div class="wrap">
   <div class="split${right ? '' : ' solo'}"><div>${cr}${label(lab)}<h1 class="display">${lines(h1)}</h1><p class="lede" data-reveal>${e(lede)}</p></div>${right}</div></div></section>`;
 }
 
@@ -169,7 +169,7 @@ add('/', {
   title: 'CJMG Creative | Website Design, SEO & Branding in Houston',
   desc: 'CJMG Creative delivers modern website design, strategic SEO, and impactful branding built to elevate your business. Migration. Revamps. Custom designs.',
   body: `
-<section class="hero"><div class="grid-bg"></div>${STAR('s1')}
+<section class="hero dark"><div class="grid-bg"></div>${STAR('s1')}
   <div class="wrap"><div class="cols">
     <div>
       ${label('Welcome to CJMG Creative')}
@@ -233,7 +233,7 @@ add('/about', {
   <div data-reveal>${label('Creative services')}<h2 class="h2" style="margin:20px 0">Websites, search visibility and brand identity.</h2><p class="lede">${e('Clean, professional websites, strong search visibility, and cohesive brand identity.')}</p><br>${btn('Explore services', '/services', 'ghost')}</div>
   <ul class="incl" data-reveal>${SERVICES.slice(0, 3).map((s) => `<li><a href="${s.href}">${e(s.title)}</a></li>`).join('')}</ul>
 </div></div></section>
-<section class="section bg-gray"><div class="wrap two center"><div data-reveal>${label('Agency credentials')}<h2 class="h2" style="margin-top:20px">Wix Creator Website Design</h2></div><div class="cred" data-reveal>${IMG.credentials.map((c) => `<img src="${wix(c)}" alt="Wix Creator Website Design credential" loading="lazy" data-soft>`).join('')}</div></div></section>
+<section class="section bg-gray"><div class="wrap two center"><div data-reveal>${label('Agency credentials')}<h2 class="h2" style="margin-top:20px">Our Wix Partner credentials.</h2></div><div class="cred" data-reveal>${IMG.credentials.map((c) => `<img src="${wix(c)}" alt="Wix Partner badge" loading="lazy" data-soft>`).join('')}</div></div></section>
 ${processSection(true)}
 ${ctaBand()}`,
 });
@@ -301,7 +301,7 @@ add('/logo-design', {
 <section class="section bg-gray"><div class="wrap two"><div data-reveal>${label('Logo branding details')}<h2 class="h2" style="margin-top:20px">Everything in a brand package.</h2></div>
   <ul class="incl" data-reveal>${LOGO.details.map((x) => `<li>${e(x)}</li>`).join('')}</ul></div></section>
 <section class="section"><div class="wrap">
-  ${LOGO.groups.map(([t, ids]) => `<h3 class="logos-h">${e(t)}</h3><div class="logos">${ids.map((id, i) => `<figure data-reveal style="--d:${(i % 6) * 0.05}s"><img src="${wix(id)}" alt="${e(t)} sample ${i + 1}" loading="lazy" decoding="async" data-soft></figure>`).join('')}</div>`).join('')}
+  ${LOGO.groups.map(([t, ids]) => `<h3 class="logos-h">${e(t)}</h3><div class="logos">${ids.map((id, i) => `<figure class="${needsDark(id) ? 'on-dark' : ''}" data-reveal style="--d:${(i % 6) * 0.05}s"><img src="${wix(id)}" alt="${e(t)} sample ${i + 1}" loading="lazy" decoding="async" data-soft></figure>`).join('')}</div>`).join('')}
 </div></section>
 ${ctaBand('Let’s build your brand', 'Check the work. Check the process. Check the facts. Contact. Done.', 'Free Consultation')}`,
 });
@@ -328,7 +328,7 @@ PROJECTS.forEach((p, i) => {
     desc: `${p.name} (${p.cat}): branding and website development project by CJMG Creative.`,
     og: p.shot,
     ld: [{ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [['Home', '/'], ['Portfolio', '/portfolio'], [p.name, `/projects/${p.slug}`]].map(([n, u], k) => ({ '@type': 'ListItem', position: k + 1, name: n, item: SITE.url + u })) }],
-    body: `<section class="phero"><div class="grid-bg"></div>${STAR('', 'right:5%;top:20%')}<div class="wrap"><div class="pd-hero">
+    body: `<section class="phero dark"><div class="grid-bg"></div>${STAR('', 'right:5%;top:20%')}<div class="wrap"><div class="pd-hero">
   <div><div class="crumbs"><a href="/">Home</a> <span>/</span> <a href="/portfolio">Portfolio</a> <span>/</span> <span>${e(p.name)}</span></div>${label(p.cat)}<h1 class="display" style="font-size:clamp(40px,6vw,78px);text-transform:none">${lines([p.name])}</h1>
   <p class="lede" data-reveal>${e(`Branding and website development for ${p.name} — a CJMG Creative project in ${p.cat.toLowerCase()}.`)}</p>
   ${p.url ? `<div style="margin-top:28px">${btn('Visit live site', p.url, 'ghost').replace('<a ', '<a target="_blank" rel="noopener" ')}</div>` : ''}</div>
@@ -338,7 +338,7 @@ PROJECTS.forEach((p, i) => {
   <div><dt>Client</dt><dd>${e(p.name)}</dd></div><div><dt>Industry</dt><dd>${e(p.cat)}</dd></div><div><dt>Project goals</dt><dd>${p.goals.join('<br>')}</dd></div></dl></div></section>
 <section class="section bg-gray"><div class="wrap two center">
   <div data-reveal>${label('Project gallery')}<h2 class="h2" style="margin:20px 0">${e(p.name)}</h2><p class="lede">${e(`Branding and website development for ${p.name}.`)}</p></div>
-  ${p.logo ? `<div class="photo" data-mask style="background:#fff;aspect-ratio:1.4;display:grid;place-items:center;padding:40px"><img src="${wix(p.logo)}" alt="${e(p.name)} logo" style="width:auto;height:auto;max-width:70%;max-height:80%;object-fit:contain" loading="lazy" data-soft></div>` : `<div class="photo" data-mask style="aspect-ratio:1.4"><img src="${wix(p.shot, 1000, 700)}" alt="${e(p.name)} project preview" loading="lazy" data-soft></div>`}
+  ${p.logo ? `<div class="photo" data-mask style="background:${needsDark(p.logo) ? '#000' : '#fff'};aspect-ratio:1.4;display:grid;place-items:center;padding:40px"><img src="${wix(p.logo)}" alt="${e(p.name)} logo" style="width:auto;height:auto;max-width:70%;max-height:80%;object-fit:contain" loading="lazy" data-soft></div>` : `<div class="photo" data-mask style="aspect-ratio:1.4"><img src="${wix(p.shot, 1000, 700)}" alt="${e(p.name)} project preview" loading="lazy" data-soft></div>`}
 </div></section>
 <section class="section"><div class="wrap"><nav class="pn" aria-label="Projects"><a href="/projects/${prev.slug}"><small>← Previous project</small><b>${e(prev.name)}</b></a><a href="/projects/${next.slug}"><small>Next project →</small><b>${e(next.name)}</b></a></nav>
   <h3 class="h3" style="margin:64px 0 24px">More projects</h3><div class="pgrid three">${more.map((m) => pjCard(m, 'z-x')).join('')}</div></div></section>
@@ -351,7 +351,7 @@ const fld = (id, lab, type = 'text', req = true, ph = '') => `<div class="fld"><
 add('/contact', {
   title: 'Contact CJMG Creative | Get a Quote | Houston, TX',
   desc: `Contact CJMG Creative: ${SITE.email}, ${SITE.phone}. Hours ${SITE.hours}. A Houston based website design and website management agency.`,
-  body: `<section class="phero"><div class="grid-bg"></div>${STAR('', 'right:7%;top:22%')}<div class="wrap">
+  body: `<section class="phero dark"><div class="grid-bg"></div>${STAR('', 'right:7%;top:22%')}<div class="wrap">
   <div class="split"><div>${label('Contact us')}<h1 class="display">${lines(['Let’s build', 'something', 'powerful.'])}</h1><p class="lede" data-reveal>${e(AGENDA.contact)}</p></div>
   <div class="cinfo" data-reveal><a href="mailto:${SITE.email}"><small>Email</small>${SITE.email}</a><a href="tel:${SITE.phoneHref}"><small>Phone</small>${SITE.phone}</a><div><small>Hours</small>${SITE.hours}</div></div></div></div></section>
 <section class="section" style="padding-top:10px"><div class="wrap"><div class="formbox" id="form" data-reveal>
@@ -401,7 +401,7 @@ add('/policy', {
 
 const notFound = {
   path: '/404.html', file: '404.html', title: 'Page not found | CJMG Creative', desc: 'This page could not be found.',
-  body: `<section class="nf"><div class="wrap"><h1 class="display">${lines(['404', 'Lost page.'])}</h1><p class="lede" style="margin:24px auto 32px">The page you’re looking for has moved or doesn’t exist.</p>${btn('Back home', '/')}</div></section>`,
+  body: `<section class="nf dark"><div class="wrap"><h1 class="display">${lines(['404', 'Lost page.'])}</h1><p class="lede" style="margin:24px auto 32px">The page you’re looking for has moved or doesn’t exist.</p>${btn('Back home', '/')}</div></section>`,
 };
 
 /* ---------- write ---------- */

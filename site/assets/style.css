@@ -1,17 +1,18 @@
-/* CJMG Creative — monochrome editorial system modelled on the Creatwise reference */
+/* CJMG Creative — editorial layout from the Creatwise reference, in CJMG's own brand:
+   black / white / red (#FC0000) and Poppins, as on thecjmg.com. Original logo is used unfiltered. */
 :root{
-  --black:#080808; --white:#fff; --gray:#f4f4f4; --silver:#eaeaea; --muted:#777; --line:#ddd;
+  --black:#000; --white:#fff; --gray:#f4f4f4; --silver:#eaeaea; --muted:#777; --line:#ddd;
+  --red:#fc0000;        /* brand red, sampled from thecjmg.com */
+  --red-btn:#e00000;    /* slightly deeper red for buttons: white text passes 5:1 */
+  --red-dk:#b00000;
   --ink-soft:#2a2a2a;
   --r-lg:36px; --r-md:24px; --r-sm:14px;
   --wrap:1240px; --gutter:32px;
-  --f-head:'General Sans','Manrope',system-ui,sans-serif;
-  --f-body:'Manrope','General Sans',system-ui,sans-serif;
-  --f-label:'DM Sans','Manrope',system-ui,sans-serif;
-  --f-hand:'Caveat','Reenie Beanie',cursive;
+  --f-head:'Poppins','Helvetica Neue',Arial,sans-serif;
+  --f-body:'Poppins','Helvetica Neue',Arial,sans-serif;
+  --f-label:'Poppins','Helvetica Neue',Arial,sans-serif;
+  --f-hand:'Caveat',cursive;
   --ease:cubic-bezier(.22,.8,.24,1);
-  /* Logo tone: black silhouette on light areas, white on black. Change here if the supplied logo needs the original colors. */
-  --logo-filter:brightness(0);
-  --logo-filter-inv:brightness(0) invert(1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -79,7 +80,7 @@ h1,h2,h3,h4{font-family:var(--f-head);font-weight:600;letter-spacing:-.025em;lin
 .nav>li:hover .sub,.nav>li:focus-within .sub{opacity:1;visibility:visible;transform:translate(-50%,0)}
 .nav .sub a{display:block;padding:11px 14px;border-radius:12px;font:500 14px/1.2 var(--f-label)}
 .nav .sub a:hover{background:var(--gray)}
-.hdr .cta{justify-self:end}
+.hdr .hcta{justify-self:end}
 .burger{display:none;justify-self:end;width:46px;height:46px;border-radius:50%;border:1px solid var(--black);place-items:center}
 .burger span{display:block;width:18px;height:2px;background:var(--black);position:relative;transition:.3s}
 .burger span::before,.burger span::after{content:"";position:absolute;left:0;width:18px;height:2px;background:var(--black);transition:.3s}
@@ -393,7 +394,7 @@ h1,h2,h3,h4{font-family:var(--f-head);font-weight:600;letter-spacing:-.025em;lin
 @media (max-width:900px){
   :root{--gutter:20px;--r-lg:28px}
   .hdr .in{grid-template-columns:1fr auto}
-  .nav,.hdr .cta{display:none}.burger{display:grid}
+  .hdr nav,.hdr .hcta{display:none}.burger{display:grid}
   .hero .cols,.about .top,.mosaic,.services .head,.t-wrap,.two,.phero .split,.pd-hero{grid-template-columns:1fr}
   .hero-art{margin:20px auto 40px;max-width:480px}
   .hero .star.s1{top:18%;right:4%}.hero .scr1{display:none}
@@ -437,3 +438,100 @@ h1,h2,h3,h4{font-family:var(--f-head);font-weight:600;letter-spacing:-.025em;lin
   .pcard{opacity:1!important}
   .marq{animation:none}
 }
+
+/* ===================== CJMG brand layer: black · white · red ===================== */
+h1,h2,h3,h4{line-height:1.12;letter-spacing:-.02em}
+.display{font-size:clamp(40px,6.2vw,82px);letter-spacing:-.025em;line-height:1.04}
+.phero .display{font-size:clamp(36px,5.6vw,76px)}
+.h2{font-size:clamp(28px,3.6vw,48px)}
+.cta h2{font-size:clamp(30px,5vw,64px)}
+.pattern .big-t{font-size:clamp(28px,3.6vw,48px)}
+.srow h3{font-size:clamp(24px,3vw,40px)}
+.lede{font-size:clamp(15px,1.3vw,17px)}
+.dot{color:var(--red);font-style:normal}
+
+/* header: always black so the original logo (white + red "J") shows as designed */
+.hdr{background:#000;color:#fff}
+.hdr.stuck{background:rgba(0,0,0,.92);box-shadow:0 1px 0 rgba(255,255,255,.1)}
+.hdr :focus-visible{outline-color:#fff}
+.logo img{filter:none}
+.nav a.nl{position:relative;color:#bdbdbd}
+.nav a.nl:hover,.nav a.nl[aria-current]{color:#fff}
+.nav a.nl[aria-current]::after{content:"";position:absolute;left:50%;bottom:0;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--red)}
+.nav .sub{background:#0b0b0b;border-color:#2a2a2a;box-shadow:0 24px 50px -20px rgba(0,0,0,.8)}
+.nav .sub a:hover{background:#1c1c1c}
+.burger{border-color:#fff}.burger span,.burger span::before,.burger span::after{background:#fff}
+.menu-open .logo img{filter:none}
+.menu-open .burger span{background:transparent}
+
+/* dark hero + inner heroes */
+.dark .star,.star{color:var(--red)}
+.scribble{color:var(--red)}
+.plus{color:var(--red)}
+.hero .grid-bg,.phero .grid-bg{background-image:linear-gradient(#ffffff0f 1px,transparent 1px),linear-gradient(90deg,#ffffff0f 1px,transparent 1px)}
+.dark .crumbs a:hover{color:#fff}
+.hero-img{background:#141414}
+.hero-card{background:#000}
+.hero-card::before,.hero-card::after{background:radial-gradient(circle at 100% 100%,transparent 26px,#000 26.5px)}
+.hero-card b{color:#fff}.hero-card span{color:#a5a5a5}
+.hero-pill{background:var(--red-btn);box-shadow:0 0 0 9px #000}
+.strip{background:#fff;color:#000}
+.hero .strip{margin-top:clamp(36px,4vw,56px)}
+
+/* buttons: red pills with a white circle arrow */
+.btn{--bg:var(--red-btn);--fg:#fff}
+.btn .ic{color:var(--red-btn)}
+.btn:hover{background:var(--red-dk);border-color:var(--red-dk)}
+.btn.light{--bg:#fff;--fg:#000;border-color:#fff}
+.btn.light .ic{background:var(--red-btn);color:#fff}
+.btn.light:hover{background:#f1f1f1;border-color:#f1f1f1}
+.btn.ghost{--bg:transparent;--fg:#000;border-color:#000}
+.btn.ghost .ic{background:var(--red-btn);color:#fff}
+.btn.ghost:hover{background:#000;color:#fff;border-color:#000}
+.btn.ghost:hover .ic,.dark .btn.ghost:hover .ic{background:var(--red-btn);color:#fff}
+.dark .btn.ghost{--fg:#fff;border-color:#fff}
+.dark .btn.ghost:hover{background:#fff;color:#000;border-color:#fff}
+.circ:hover,.srow:hover .circ{background:var(--red-btn);border-color:var(--red-btn);color:#fff}
+
+/* full-color photography (their originals) */
+.hero-img img,.photo img,.mosaic .side img,.pj .ph img.shot,.pd-img img,.arch .mark,.marq .lg,.logos img,.cred img,.pj .badge img{filter:none}
+.pj:hover .ph img.shot{filter:saturate(1.1)}
+.marq .lg{opacity:.92}
+
+/* red accents */
+.pj .ar,.card .ico,.tick,.arch::after,.fbtn[aria-pressed="true"]{background:var(--red-btn)}
+.fbtn[aria-pressed="true"]{border-color:var(--red-btn)}
+.fbtn:hover{border-color:var(--red)}
+.tdots button[aria-current="true"]{background:var(--red)}
+.faq details[open] summary i,.dark .faq details[open] summary i{background:var(--red-btn);border-color:var(--red-btn);color:#fff}
+.card .ico{border-color:var(--red-btn)}
+.incl li::before,.srow .n{color:var(--red)}
+.pcard::before{background:radial-gradient(circle at 35% 30%,#ff7a7a,#c40000 60%)}
+.stage .path path{stroke:var(--red);opacity:.75}
+.deliver,.deliver svg{color:#111}
+.scard .bd{background:conic-gradient(from var(--a,0deg),transparent 70%,var(--red) 100%)}
+.scard:hover .go{background:var(--red-btn);border-color:var(--red-btn);color:#fff}
+.scard:hover{border-color:var(--red)}
+.scard::before{background:radial-gradient(360px circle at var(--mx) var(--my),rgba(252,0,0,.16),transparent 60%)}
+.scard:hover .ico{border-color:var(--red)}
+.tag{box-shadow:0 10px 20px -10px #000a}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--red);box-shadow:0 0 0 4px #fc000022}
+.radios input{accent-color:var(--red)}
+
+/* signature red bottom edge on cards (as on thecjmg.com) */
+.scard,.pcard,.card,.pattern,.formbox,.cta{border-bottom:3px solid var(--red)}
+.cta{border-bottom-width:4px}
+.cta::after{background:radial-gradient(ellipse 60% 70% at 50% 50%,rgba(0,0,0,.78),transparent 75%)}
+
+/* footer: black, original logo */
+.ftr{background:#000;color:#fff;border-top:3px solid var(--red)}
+.ftr a{color:#bdbdbd}.ftr a:hover{color:#fff}
+.ftr p.s,.ftr .muted,.ftr .bot{color:#8f8f8f}
+.ftr .bot{border-color:#262626}
+.ftr .logo img{filter:none}
+
+/* logos that are light artwork on transparent sit on black tiles */
+.pj .badge.on-dark{background:#000;box-shadow:0 0 0 1px #2a2a2a}
+.marq .lg.on-dark{background:#000;padding:8px 12px;border-radius:10px;height:44px;box-sizing:border-box}
+.logos figure.on-dark{background:#000}
+.arch{transition:background .6s var(--ease)}

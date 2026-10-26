@@ -32,9 +32,10 @@ Agency Agenda, hero tagline ("Your brand, your way." / "Migration.Revamps.Custom
 7. **"Select Service" dropdown options** are not in the rendered HTML (placeholder "Services" only). I used: Website Design, SEO, Logo Design & Branding, Website Revamp / Migration, Website Management & Updates. Replace with your real list.
 8. **Project pages are intentionally thin.** The site holds only a photo, a logo, a category, two goals and a link per project. Each page shows exactly that, with no invented case study.
 9. **Testimonials:** "Mr. Morrison — Owner" is attributed on the page to "Fantom Clothing" only through the image alt text; I show "Owner, Fantom Clothing". Quotes are verbatim.
-10. **Agency Credentials:** four "Wix Creator Website Design" badge images on the live home page, used on the About page (grayscale).
-11. **Unsplash was not used.** Every image comes from the live site (hero, About photos, project photos, logos). Project cards show the project's own photo and logo tile from the existing site, not browser screenshots, because the original site contains none.
-12. Not copied from Creatwise: name, people, "250+ clients", "40% growth", copy.
+10. **Agency Credentials:** four "Wix Partner" badge images (Editor X, Icon, Legend) on the live home page; used on the About page in full color.
+11. **Unsplash was not used.** Every image comes from the live site (hero, About photos, project photos, logos), in full color. Project cards show the project's own photo and logo from the existing site, not browser screenshots, because the original site contains none.
+12. **Brand:** colors and font sampled from thecjmg.com: black `#000`, white, red `#FC0000` (theme red `#ED1C24`), Poppins. The original CJMG logo is white + red on transparent, so it is only used on black. Several client logos (Lakeside Subs, Rapid Repair Ranger, Highly Affordable Roofing, Alyzion Medical, Fantom Clothing and some gallery logos) are light artwork on transparent; they are placed on black tiles (measured per image in `src/tones.json`).
+13. Not copied from Creatwise: name, people, "250+ clients", "40% growth", copy.
 
 ## Not done / needs the owner
 - Business address (none published), Google Business Profile link, and social URLs.

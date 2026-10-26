@@ -12,6 +12,11 @@ export const SITE = {
   tagline: 'Your brand, your way.',
 };
 
+import { readFileSync } from 'node:fs';
+const TONES = JSON.parse(readFileSync(new URL('./tones.json', import.meta.url), 'utf8')); // measured per-image: light | dark | mixed | solid
+/** true when a logo is light artwork on transparent and needs a dark tile to be readable */
+export const needsDark = (id) => TONES[id] === 'light';
+
 const WIX = 'https://static.wixstatic.com/media/';
 export const wix = (id, w, h) => {
   if (!id) return '';
@@ -78,9 +83,9 @@ export const FILTERS = ['All', 'Health & Care', 'Beauty', 'Food', 'Home & Trade'
 export const FEATURED = ['fleur-de-photo', 'speaking-gold', 'mind-over-matter-counseling-services', 'zantha-products', 'the-grandbaby-project', 'lash-lab-pdx'];
 
 export const TESTIMONIALS = [
-  { quote: 'Quality work from a quality design agency, totally brought my vision to life.', name: 'Mr. Morrison', role: 'Owner', biz: 'Fantom Clothing', img: 'ffa66f_41ad61745ab54dd1969496cf28f0c7c0~mv2.png' },
-  { quote: 'Communicates well, keeps clients informed on changes, offers suggestions, and provides good quality work!', name: 'Deon Richardson', role: 'Owner', biz: 'Bow Tie Chauffeur', img: 'ffa66f_5b225e8421604fe1bb41c2b9a8d8a7f7~mv2.png' },
-  { quote: 'Fast service and attention to details are what you look for in online creative agencies. CJMG was able to bring out the best in my overall brand and totally change my perspective on my branding.', name: 'Marlyn', role: 'Owner', biz: 'Dipped in Gold By Marlyn', img: 'ffa66f_4e7e419a90ef44f99ef5b770cfecebc5~mv2.png' },
+  { quote: 'Quality work from a quality design agency, totally brought my vision to life.', name: 'Mr. Morrison', role: 'Owner', biz: 'Fantom Clothing', img: 'ffa66f_41ad61745ab54dd1969496cf28f0c7c0~mv2.png', bg: '#000' },
+  { quote: 'Communicates well, keeps clients informed on changes, offers suggestions, and provides good quality work!', name: 'Deon Richardson', role: 'Owner', biz: 'Bow Tie Chauffeur', img: 'ffa66f_5b225e8421604fe1bb41c2b9a8d8a7f7~mv2.png', bg: '#fff' },
+  { quote: 'Fast service and attention to details are what you look for in online creative agencies. CJMG was able to bring out the best in my overall brand and totally change my perspective on my branding.', name: 'Marlyn', role: 'Owner', biz: 'Dipped in Gold By Marlyn', img: 'ffa66f_4e7e419a90ef44f99ef5b770cfecebc5~mv2.png', bg: '#fff' },
 ];
 
 export const AGENDA = {
